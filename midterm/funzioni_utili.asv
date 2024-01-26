@@ -1,0 +1,31 @@
+%% ANGOLI DI EULERO
+%
+% con eul = [phi th psi]
+%
+% PROBLEMA DIRETTO eul ==> rotm
+% rotm = eul2rotm(eul)
+% rotm = eul2rotm(eul,sequence)
+%
+% PROBLEMA INVERSO rotm ==> eul
+% eul = rotm2eul(rotm)
+% eul = rotm2eul(rotm,sequence)
+% [eul,eulAlt] = rotm2eul(___)
+%
+% nota: credo che noi usiamo la sequence zxz
+%% ROTAZIONE R(r, theta)
+% 
+% PROBLEMA INVERSO R ==> (r, theta)
+% v = vrrotmat2vec(R)
+% con v = [rx ry rz th]
+% rpos = [rx ry rz]
+% rneg = - rpos
+% thpos = th
+% thneg = - thpos
+%
+% condition on rx, ry, rz:
+% pag 23 slide 07_positionori
+%
+% validation:
+% R(theta, r) = r * r' + (I - r * r') * cos(theta) + S(r) * sin(theta)
+% R(theta, r_1) = R(theta, r_2) = R
+

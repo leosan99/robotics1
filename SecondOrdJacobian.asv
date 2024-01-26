@@ -1,0 +1,7 @@
+function [J2] =SecondOrdJacobian(J, dofs)
+% dofs structure is a symbolic vector of the q1, q2, q3, ...
+[numel(dofs),numel ] = size(J);
+
+for i = [1:numel(dofs)]
+    J2(i,:) = diff(J,dofs(i))
+end
