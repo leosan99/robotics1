@@ -1,8 +1,7 @@
 function [Jl, Ja] = geometric_jacobian(f_r, sequence, q_in, params)
 % geoJ = geometric_jacobian() takes as inputs:
 %   -f_r: mapping from joint space to cartesian space
-%   -sequence: A string containing the sequence of 'r's and 'p's (revoluts
-%   and prismatics)
+%   -sequence: A string containing the sequence of 'r's and 'p's
 %   -q_in: The list of the variables we want to derive wrt
 %   -params: List of params needed to get the DHMatrix
 % and outputs:
