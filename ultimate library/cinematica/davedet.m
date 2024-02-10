@@ -1,20 +1,24 @@
-function [new_eq_vec2, eq_vec, q_sing] = davedet(A, noti, qus)
+function [eq_vec] = davedet(J)
 % this function computes all the minors of a rectangular matrix, in order
 % to reduce the time used to compute a determinant.
 % the function works only with rectangular matrices in which dimensions
 % differ at maximum by two.
+%
 % inputs:
-% A = matrix that you're studying
-% noti = vector of symbolic values that are known, but not scalars. ex
-% lenght of the links of a robot arm
-% qus = vector of variable dofs
+% - J = matrix that you're studying
+% unused inputs: 
+% - noti = vector of symbolic values that are known, but not scalars. ex
+%   lenght of the links of a robot arm
+% - qus = vector of variable dofs
+%
 % outputs:
-% new_ew_vec2 = equations of the minors of the matrix (det of
+% - eq_vec = equations not reduced by symtrue
+% unused outputs: 
+% - new_ew_vec2 = equations of the minors of the matrix (det of
 % undermatrices)
-% eq_vec = equations not reduced by symtrue
 
-S = size(A);
-r = A(1); c = A(2);
+S = size(J);
+r = J(1); c = J(2);
 
 [N, i] = min(S);
 iLoop = 1;
@@ -31,9 +35,9 @@ for i = 1:Nmat
     c = linspace(1, S(iLoop), S(iLoop));
     c(comb(i, :)) = [];
     if iLoop == 1
-        MINORI{i} = A(c, :);
+        MINORI{i} = J(c, :);
     else
-        MINORI{i} = A(:, c);
+        MINORI{i} = J(:, c);
     end
 end
 
@@ -44,15 +48,16 @@ for i = 1:Nmat
 end
 
 % symtrue reduction
-eq_vec2 = simplify(eq_vec);
+eq_vec = simplify(eq_vec);
 
-% following two lines are removed because of not anymore equations but just
-% determinants
+% following lines are removed because solve couldn't resolve the
+% determinants in symbolic
+%
 % logical_index = (eq_vec2 == symtrue);
 % new_eq_vec2 = eq_vec2(~logical_index);
 
-semplification = ones(size(noti));
-new_eq_vec2 = subs(eq_vec2, noti, semplification);
+% semplification = ones(size(noti));
+% new_eq_vec2 = subs(eq_vec2, noti, semplification);
 
 % solution of determinants. 
 % does work only if you know already from which variables will depend the

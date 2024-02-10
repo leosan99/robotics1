@@ -32,6 +32,7 @@ for i = 1:numForms
     % Update the best form index if the current form has more all-zero rows/columns
     if zerosInRows > bestZeros || zerosInCols > bestZeros
         BestJ = J_transformed;
+        fprintf('best form is the one multiplied by R%d transposed \n', i)
         bestZeros = max(zerosInRows, zerosInCols);
     end
 end
