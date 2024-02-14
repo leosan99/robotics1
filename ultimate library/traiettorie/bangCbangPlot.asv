@@ -1,0 +1,46 @@
+function bangCbangPlot(v_max, a_max, T, L)
+    t1 = v_max / a_max; % Time to accelerate to maximum velocity
+    d1 = 0.5 * a_max * t1^2; % Distance covered during acceleration
+
+    if abs(L) <= 2 * d1 % If distance is less than or equal to 2*d1, then no coast phase
+        t1 = sqrt(abs(L) / (0.5 * a_max)); % Recalculate time to cover distance without coast
+        d1 = 0.5 * a_max * t1^2; % Recalculate distance covered during acceleration
+        t_coast = 0;
+    else
+        t_coast = (T - 2 * t1); % Coast time
+    end
+
+    t_total = 2 * t1 + t_coast; % Total time
+
+    % Time vector
+    t = linspace(0, t_total, 1000);
+
+    % Position function
+    p = zeros(size(t));
+    p(t <= t1) = 0.5 * a_max * t(t <= t1).^2;
+    p(t > t1 & t <= (t1 + t_coast)) = d1 + v_max * (t(t > t1 & t <= (t1 + t_coast)) - t1);
+    p(t > (t1 + t_coast) & t <= t_total) = L - 0.5 * a_max * (t(t > (t1 + t_coast) & t <= t_total) - (t_total - t1))^2;
+
+    % Velocity function
+    v = zeros(size(t));
+    v(t <= t1) = a_max * t(t <= t1);
+    v(t > t1 & t <= (t1 + t_coast)) = v_max;
+    v(t > (t1 + t_coast) & t <= t_total) = v_max - a_max * (t(t > (t1 + t_coast) & t <= t_total) - (t_total - t1));
+
+    % Acceleration function
+    a = zeros(size(t));
+    a(t <= t1) = a_max;
+    a(t > t1 & t <= (t1 + t_coast)) = 0;
+    a(t > (t1 + t_coast) & t <= t_total) = -a_max;
+
+    % Plotting
+    figure;
+    subplot(3,1,1);
+    plot(t, p, 'b', 'LineWidth', 1.5);
+    xlabel('Time');
+    ylabel('Position');
+    title('Position vs Time');
+    grid on;
+
+    subplot
+        
